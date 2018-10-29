@@ -21,16 +21,16 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
+
+    @Enumerated(EnumType.STRING)// always safer than integer since adding a new Enum or changing the ordertype of enums doesnt effect the code.
+    private Difficulty difficulty;
+
     @Lob
     private Byte[] images;
+@ManyToMany
+@JoinTable(name="recipe_category" ,joinColumns =@JoinColumn(name="recipe_id"), inverseJoinColumns = @JoinColumn(name="category_id"))
+    private Set<Category> categories;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     //Cascade sets the recipe as owner of the notes. If recipe is deleted then notes automatically will get deleted.
     @OneToOne(cascade = CascadeType.ALL)
@@ -42,6 +42,14 @@ public class Recipe {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Integer getPreptrime() {
@@ -106,5 +114,29 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }
